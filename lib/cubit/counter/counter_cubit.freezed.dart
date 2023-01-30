@@ -20,24 +20,25 @@ mixin _$CounterState {
   TResult when<TResult extends Object?>({
     required TResult Function(int initial) initial,
     required TResult Function() loading,
-    required TResult Function() loaded,
-    required TResult Function(String meessgae, int lastNumberBeforeError) erorr,
+    required TResult Function(int newNumber) loaded,
+    required TResult Function(String? message, int? lastNumberBeforeError)
+        erorr,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int initial)? initial,
     TResult? Function()? loading,
-    TResult? Function()? loaded,
-    TResult? Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult? Function(int newNumber)? loaded,
+    TResult? Function(String? message, int? lastNumberBeforeError)? erorr,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int initial)? initial,
     TResult Function()? loading,
-    TResult Function()? loaded,
-    TResult Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult Function(int newNumber)? loaded,
+    TResult Function(String? message, int? lastNumberBeforeError)? erorr,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -159,8 +160,9 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function(int initial) initial,
     required TResult Function() loading,
-    required TResult Function() loaded,
-    required TResult Function(String meessgae, int lastNumberBeforeError) erorr,
+    required TResult Function(int newNumber) loaded,
+    required TResult Function(String? message, int? lastNumberBeforeError)
+        erorr,
   }) {
     return initial(this.initial);
   }
@@ -170,8 +172,8 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int initial)? initial,
     TResult? Function()? loading,
-    TResult? Function()? loaded,
-    TResult? Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult? Function(int newNumber)? loaded,
+    TResult? Function(String? message, int? lastNumberBeforeError)? erorr,
   }) {
     return initial?.call(this.initial);
   }
@@ -181,8 +183,8 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int initial)? initial,
     TResult Function()? loading,
-    TResult Function()? loaded,
-    TResult Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult Function(int newNumber)? loaded,
+    TResult Function(String? message, int? lastNumberBeforeError)? erorr,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -283,8 +285,9 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function(int initial) initial,
     required TResult Function() loading,
-    required TResult Function() loaded,
-    required TResult Function(String meessgae, int lastNumberBeforeError) erorr,
+    required TResult Function(int newNumber) loaded,
+    required TResult Function(String? message, int? lastNumberBeforeError)
+        erorr,
   }) {
     return loading();
   }
@@ -294,8 +297,8 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int initial)? initial,
     TResult? Function()? loading,
-    TResult? Function()? loaded,
-    TResult? Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult? Function(int newNumber)? loaded,
+    TResult? Function(String? message, int? lastNumberBeforeError)? erorr,
   }) {
     return loading?.call();
   }
@@ -305,8 +308,8 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int initial)? initial,
     TResult Function()? loading,
-    TResult Function()? loaded,
-    TResult Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult Function(int newNumber)? loaded,
+    TResult Function(String? message, int? lastNumberBeforeError)? erorr,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -361,6 +364,8 @@ abstract class _Loading implements CounterState {
 abstract class _$$_LoadedCopyWith<$Res> {
   factory _$$_LoadedCopyWith(_$_Loaded value, $Res Function(_$_Loaded) then) =
       __$$_LoadedCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int newNumber});
 }
 
 /// @nodoc
@@ -369,42 +374,70 @@ class __$$_LoadedCopyWithImpl<$Res>
     implements _$$_LoadedCopyWith<$Res> {
   __$$_LoadedCopyWithImpl(_$_Loaded _value, $Res Function(_$_Loaded) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? newNumber = null,
+  }) {
+    return _then(_$_Loaded(
+      null == newNumber
+          ? _value.newNumber
+          : newNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
-  const _$_Loaded();
+  const _$_Loaded(this.newNumber);
+
+  @override
+  final int newNumber;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CounterState.loaded()';
+    return 'CounterState.loaded(newNumber: $newNumber)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'CounterState.loaded'));
+    properties
+      ..add(DiagnosticsProperty('type', 'CounterState.loaded'))
+      ..add(DiagnosticsProperty('newNumber', newNumber));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Loaded);
+        (other.runtimeType == runtimeType &&
+            other is _$_Loaded &&
+            (identical(other.newNumber, newNumber) ||
+                other.newNumber == newNumber));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, newNumber);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
+      __$$_LoadedCopyWithImpl<_$_Loaded>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int initial) initial,
     required TResult Function() loading,
-    required TResult Function() loaded,
-    required TResult Function(String meessgae, int lastNumberBeforeError) erorr,
+    required TResult Function(int newNumber) loaded,
+    required TResult Function(String? message, int? lastNumberBeforeError)
+        erorr,
   }) {
-    return loaded();
+    return loaded(newNumber);
   }
 
   @override
@@ -412,10 +445,10 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int initial)? initial,
     TResult? Function()? loading,
-    TResult? Function()? loaded,
-    TResult? Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult? Function(int newNumber)? loaded,
+    TResult? Function(String? message, int? lastNumberBeforeError)? erorr,
   }) {
-    return loaded?.call();
+    return loaded?.call(newNumber);
   }
 
   @override
@@ -423,12 +456,12 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int initial)? initial,
     TResult Function()? loading,
-    TResult Function()? loaded,
-    TResult Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult Function(int newNumber)? loaded,
+    TResult Function(String? message, int? lastNumberBeforeError)? erorr,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded();
+      return loaded(newNumber);
     }
     return orElse();
   }
@@ -472,7 +505,12 @@ class _$_Loaded with DiagnosticableTreeMixin implements _Loaded {
 }
 
 abstract class _Loaded implements CounterState {
-  const factory _Loaded() = _$_Loaded;
+  const factory _Loaded(final int newNumber) = _$_Loaded;
+
+  int get newNumber;
+  @JsonKey(ignore: true)
+  _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -480,7 +518,7 @@ abstract class _$$_ErrorCopyWith<$Res> {
   factory _$$_ErrorCopyWith(_$_Error value, $Res Function(_$_Error) then) =
       __$$_ErrorCopyWithImpl<$Res>;
   @useResult
-  $Res call({String meessgae, int lastNumberBeforeError});
+  $Res call({String? message, int? lastNumberBeforeError});
 }
 
 /// @nodoc
@@ -493,18 +531,18 @@ class __$$_ErrorCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? meessgae = null,
-    Object? lastNumberBeforeError = null,
+    Object? message = freezed,
+    Object? lastNumberBeforeError = freezed,
   }) {
     return _then(_$_Error(
-      null == meessgae
-          ? _value.meessgae
-          : meessgae // ignore: cast_nullable_to_non_nullable
-              as String,
-      null == lastNumberBeforeError
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastNumberBeforeError: freezed == lastNumberBeforeError
           ? _value.lastNumberBeforeError
           : lastNumberBeforeError // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -512,16 +550,16 @@ class __$$_ErrorCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Error with DiagnosticableTreeMixin implements _Error {
-  const _$_Error(this.meessgae, this.lastNumberBeforeError);
+  const _$_Error({this.message, this.lastNumberBeforeError});
 
   @override
-  final String meessgae;
+  final String? message;
   @override
-  final int lastNumberBeforeError;
+  final int? lastNumberBeforeError;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CounterState.erorr(meessgae: $meessgae, lastNumberBeforeError: $lastNumberBeforeError)';
+    return 'CounterState.erorr(message: $message, lastNumberBeforeError: $lastNumberBeforeError)';
   }
 
   @override
@@ -529,7 +567,7 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'CounterState.erorr'))
-      ..add(DiagnosticsProperty('meessgae', meessgae))
+      ..add(DiagnosticsProperty('message', message))
       ..add(
           DiagnosticsProperty('lastNumberBeforeError', lastNumberBeforeError));
   }
@@ -539,14 +577,13 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Error &&
-            (identical(other.meessgae, meessgae) ||
-                other.meessgae == meessgae) &&
+            (identical(other.message, message) || other.message == message) &&
             (identical(other.lastNumberBeforeError, lastNumberBeforeError) ||
                 other.lastNumberBeforeError == lastNumberBeforeError));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, meessgae, lastNumberBeforeError);
+  int get hashCode => Object.hash(runtimeType, message, lastNumberBeforeError);
 
   @JsonKey(ignore: true)
   @override
@@ -559,10 +596,11 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function(int initial) initial,
     required TResult Function() loading,
-    required TResult Function() loaded,
-    required TResult Function(String meessgae, int lastNumberBeforeError) erorr,
+    required TResult Function(int newNumber) loaded,
+    required TResult Function(String? message, int? lastNumberBeforeError)
+        erorr,
   }) {
-    return erorr(meessgae, lastNumberBeforeError);
+    return erorr(message, lastNumberBeforeError);
   }
 
   @override
@@ -570,10 +608,10 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int initial)? initial,
     TResult? Function()? loading,
-    TResult? Function()? loaded,
-    TResult? Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult? Function(int newNumber)? loaded,
+    TResult? Function(String? message, int? lastNumberBeforeError)? erorr,
   }) {
-    return erorr?.call(meessgae, lastNumberBeforeError);
+    return erorr?.call(message, lastNumberBeforeError);
   }
 
   @override
@@ -581,12 +619,12 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int initial)? initial,
     TResult Function()? loading,
-    TResult Function()? loaded,
-    TResult Function(String meessgae, int lastNumberBeforeError)? erorr,
+    TResult Function(int newNumber)? loaded,
+    TResult Function(String? message, int? lastNumberBeforeError)? erorr,
     required TResult orElse(),
   }) {
     if (erorr != null) {
-      return erorr(meessgae, lastNumberBeforeError);
+      return erorr(message, lastNumberBeforeError);
     }
     return orElse();
   }
@@ -630,11 +668,11 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
 }
 
 abstract class _Error implements CounterState {
-  const factory _Error(final String meessgae, final int lastNumberBeforeError) =
-      _$_Error;
+  const factory _Error(
+      {final String? message, final int? lastNumberBeforeError}) = _$_Error;
 
-  String get meessgae;
-  int get lastNumberBeforeError;
+  String? get message;
+  int? get lastNumberBeforeError;
   @JsonKey(ignore: true)
   _$$_ErrorCopyWith<_$_Error> get copyWith =>
       throw _privateConstructorUsedError;
