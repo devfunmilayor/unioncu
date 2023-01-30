@@ -1,4 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:unioncu/cubit/counter/counter_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +20,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: BlocProvider(
+        create: (context) => CounterCubit(),
+        child: MyHomePage(title: 'Flutter frezee Demo'),
+      ),
     );
   }
 }
@@ -31,39 +38,88 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    return BlocConsumer<CounterCubit, CounterState>(
+      listener: (context, state) {
+        state.maybeWhen(
+            orElse: () {},
+            erorr: ((message, lastNumberBeforeError) {
+              var snackBar =
+                  SnackBar(content: Text('$message $lastNumberBeforeError '));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }));
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(widget.title),
+          ),
+          body: state.when(
+              initial: (initial) {
+                return Center(child: Text('data $initial'));
+              },
+              loading: () => Center(child: CircularProgressIndicator()),
+              loaded: (newData) {
+                return Center(
+                  child: Text('data $newData'),
+                );
+              },
+              erorr: (e, lastNumber) {
+                return Center(
+                  child: Text(
+                    'error ${e.toString()} $lastNumber ',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                );
+              }),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton(
+                    backgroundColor: Colors.green,
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      state.maybeWhen(
+                          initial: (initial) => context
+                              .read<CounterCubit>()
+                              .incrementData(initial),
+                          loaded: (currentNumber) => context
+                              .read<CounterCubit>()
+                              .incrementData(currentNumber),
+                          orElse: () {});
+                    }),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton(
+                    backgroundColor: Colors.orange,
+                    child: Icon(Icons.remove),
+                    onPressed: () {
+                      state.maybeWhen(
+                          initial: (initial) =>
+                              context.read<CounterCubit>().decrement(initial),
+                          loaded: (currentNumber) => context
+                              .read<CounterCubit>()
+                              .decrement(currentNumber),
+                          orElse: () {});
+                    }),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton(
+                    backgroundColor: Colors.red,
+                    child: Icon(Icons.restore),
+                    onPressed: () {
+                      context.read<CounterCubit>().resetCounter();
+                    }),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
